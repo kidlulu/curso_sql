@@ -1,0 +1,67 @@
+--- 
+title: "Curso SQL"
+author: "Luiz Rubens Câmara de Araújo"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::downcute:
+    self_contained: true
+    thumbnails: true
+    #lightbox: true
+    gallery: false
+    highlight: tango
+    # toc: yes
+    # toc_float: yes
+  pdf_document:
+    toc: yes
+link-citations: yes
+fontsize: 18pt
+description: Minicurso de SQL aplicado à Pesquisa Distrital por Amostra de Domicílios - PDAD, ano-base 2018
+---
+
+```{r, echo=F}
+library(knitr)
+library(stringr)
+library(forcats)
+
+# Definir opções dos chunks
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
+                      results = "hide")
+
+# Definir função para separador de milhar e decimal dos chunks
+knit_hooks$set(inline = function(x) {
+  prettyNum(x, big.mark=".",decimal.mark = ",")
+})
+
+# Outras opções gerais e de pacotes específicos
+options(OutDec = ",")
+options(scipen=999)
+setwd("C:/Users/35866/OneDrive/Documentos/curso_sql")
+```
+
+# Agenda
+
+Este minicurso de R será focado no `tidyverse` (universo "arrumado"), que conta com um conjunto de pacotes que auxiliam os pesquisadores a manipularem suas bases de dados, preparando-as para que análises possam ser realizadas. Ajustar a base de dados, geralmente, é a etapa que mais consome tempo em uma pesquisa. Portanto, ter uma ferramenta que torne essa tarefa mais eficiente é fundamental.
+
+Informações mais aprofundadas sobre o `tidyverse` estão disponíveis livro [R for data science](http://r4ds.had.co.nz/). 
+
+Esse curso foi baseado nos cursos [R pragmático](https://curso-r.github.io/ragmatic-book/) e [Curso de R](http://material.curso-r.com/rbase/), que podem ser consultados sempre que necessário. O livro [R para cientistas sociais](http://www.uesc.br/editora/livrosdigitais_20140513/r_cientistas.pdf) é uma outra boa fonte de informações. Para análise de dados com estatística aplicada, o livro [Estatística Básica - Bussab e Morettin (2017)](https://rpubs.com/EstatBasica/Introd) conta com um site com os exemplos apresentados no livro. O site do [institute for digital research and education, da UCLA](https://stats.idre.ucla.edu/other/dae/) conta com valiosos tutoriais que podem ser consultados sempre que necessário para a aplicação de técnicas estatísticas no R.
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
