@@ -1,14 +1,14 @@
 --- 
-title: "Curso SQL"
+title: "Minicurso de SQL aplicado à **PDAD 2021**"
 author: "Luiz Rubens Câmara de Araújo"
 date: "`r Sys.Date()`"
 output:
-  rmdformats::downcute:
+  rmdformats::readthedown:
     self_contained: true
     thumbnails: true
     #lightbox: true
     gallery: false
-    highlight: tango
+    highlight: tango    
     # toc: yes
     # toc_float: yes
   pdf_document:
@@ -40,28 +40,363 @@ setwd("C:/Users/35866/OneDrive/Documentos/curso_sql")
 
 # Agenda
 
-Este minicurso de R será focado no `tidyverse` (universo "arrumado"), que conta com um conjunto de pacotes que auxiliam os pesquisadores a manipularem suas bases de dados, preparando-as para que análises possam ser realizadas. Ajustar a base de dados, geralmente, é a etapa que mais consome tempo em uma pesquisa. Portanto, ter uma ferramenta que torne essa tarefa mais eficiente é fundamental.
+Este minicurso de SQL terá enfoque nos microdados da ***Pesquisa Distrital por Amostra de Domicílios - PDAD***, ano base 2021, e na base de dados ***`DB_CODEPLAN`***, que disponibiliza microdados de diversas fontes de informações para subsidiar os trabalhos desenvolvidos no ***Instituto de Pesquisa e Estatística do DF - IPEDF Codeplan***. O dicionário de dados da PDAD está disponível para download no endereço eletrônico **https://www.codeplan.df.gov.br/microdados-pdad-2021/**.
 
-Informações mais aprofundadas sobre o `tidyverse` estão disponíveis livro [R for data science](http://r4ds.had.co.nz/). 
+# 1	INTRODUÇÃO 
 
-Esse curso foi baseado nos cursos [R pragmático](https://curso-r.github.io/ragmatic-book/) e [Curso de R](http://material.curso-r.com/rbase/), que podem ser consultados sempre que necessário. O livro [R para cientistas sociais](http://www.uesc.br/editora/livrosdigitais_20140513/r_cientistas.pdf) é uma outra boa fonte de informações. Para análise de dados com estatística aplicada, o livro [Estatística Básica - Bussab e Morettin (2017)](https://rpubs.com/EstatBasica/Introd) conta com um site com os exemplos apresentados no livro. O site do [institute for digital research and education, da UCLA](https://stats.idre.ucla.edu/other/dae/) conta com valiosos tutoriais que podem ser consultados sempre que necessário para a aplicação de técnicas estatísticas no R.
+## 1.1	Conceito de Banco de Dados
 
-## R Markdown
+Antes do surgimento dos bancos de dados, as informações eram gravadas em arquivos de dados com formato texto (*flat file*) ou binário proprietário, como por exemplo, o *Clipper* com *dbf*, *Cobol* com *dat*.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Estes arquivos eram copiados em um servidor e disponibilizados aos usuários por acesso em rede, ou seja, era dado o acesso ao diretório onde os arquivos estavam, para que o usuário pudesse acessá-los e alterá-los.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+O principal problema gerado por esta forma de trabalho com arquivos de dados era a falta de controle do que era feito com eles, já que era possível controlar apenas quem acessava, mas não o que era alterado.
 
-```{r cars}
-summary(cars)
-```
+Outra característica é que os dados eram processados localmente, ou seja, ao acessar o arquivo de dados o usuário carregava e processava as informações na memória do computador em que estava trabalhando, como mostra a figura abaixo.
 
-## Including Plots
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura01.png" style="width: 400px;display: block;margin-left: auto;margin-right: auto "/>
 
-You can also embed plots, for example:
+Para arquivos de dados pequenos e com acesso restrito a poucas pessoas este modelo funcionou bem, mas com o crescimento de usuários de dados e de volume de informações, este modelo passou a gerar uma série de problemas, como lentidão de rede e falta de controle de alteração de arquivos.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+Para solucionar este problema foram criados na década de 70 os primeiros servidores de banco de dados, chamada de *client-server*, onde os dados residem em um servidor e o usuário, chamado de cliente, envia ao servidor um conjunto de comandos que são interpretados e processados no próprio servidor, e recebe de volta o resultado final do processamento.
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Após o surgimento dos servidores foi criado um padrão chamado ***Database Management System*** (***DBMS***), ou em bom português brasileiro ***Sistema de Gerenciamento de Banco de Dados*** (***SGBD***).
+
+## 1.2	O Banco de Dados **DB_CODEPLAN**
+
+O **DB_CODEPLAN** é um banco de dados que contém diversas informações úteis para o desenvolvimento de estudos e trabalhos. Todas as informações estão disponibilizadas em tabelas, que por sua vez são agrupadas em ***schemas***^[Os *Schemas* são uma coleção de objetos que servem para agrupar objetos no nível de aplicação como também para simplesmente fazer divisões.]  de acordo com sua natureza, como mostra a figura abaixo.
+
+Figura 01 – Exemplo de *schemas* e tabelas no banco de dados DB_CODEPLAN.
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura02.png" style="width: 400px;display: block;margin-left: auto;margin-right: auto "/>
+
+Os *schemas* do DB_CODEPLAN são organizados em 2 grandes grupos: acesso público e acesso restrito. Os *schemas* de acesso público possuem tabelas com informações que podem ser acessadas por qualquer pessoa que se conecte ao DB_CODEPLAN utilizando como usuário e senha ***codeplan***. Já os *schemas* de acesso restrito possuem tabelas com informações identificadas que para ter acesso, é necessário o preenchimento e assinatura de um “Termo de responsabilidade pelo uso da informação”. A figura abaixo mostra os *schemas* existentes atualmente no DB_CODEPLAN.
+
+Figura 02 – *Schemas* disponíveis no banco de dados DB_CODEPLAN.
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura03.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+# 2	PROCEDIMENTOS PARA INSTALAÇÃO DE FERRAMENTAS PARA CONSULTAS EM BANCO DE DADOS
+
+## 2.1	 Informações para conexão ao banco
+
+O SGBD utilizado pela Codeplan é o SQL Server, disponibilizado e administrado pela Subsecretaria de Tecnologia da Informação e Comunicação – Sutic, vinculada à Secretaria Executiva de Planejamento – Splan. O seu acesso pode ser feito através de qualquer computador que esteja conectado à Rede Corporativa Metropolitana – GDFNet^[Rede Corporativa Metropolitana – GDFNet, mantida pela Sutic, é a rede de dados de comunicação de alta velocidade. Tem como papel interligar as unidades administrativas e unidades operacionais, permitindo a comunicação e a troca de informações seguras entre si e com o Centro de Dados Corporativo do DF – CeTIC, além de prover de acesso seguro aos sistemas corporativos e à rede mundial de computadores. Mais informações no endereço eletrônico https://www.economia.df.gov.br/tecnologia-da-informacao-e-comunicacao-sutic/.], e os dados de acesso são os seguintes:
+
+•	***IP:*** 10.72.31.174
+
+•	***Porta:*** 1432
+
+•	***Banco de dados:*** DB_CODEPLAN
+
+Apresentaremos 2 softwares que podem ser utilizados para acessar o DB_CODEPLAN.
+
+## 2.2	*DBeaver*
+
+O *DBeaver* é um software livre utilizado para acesso, administração e consultas a diversos SGBD. Ele pode ser instalado em diversos sistemas operacionais. No caso do Windows, ele pode ser instalado e configurado sem a necessidade de perfil administrativo, como mostra os passos descritos abaixo.
+
+### 2.2.1	Como instalar o DBeaver
+
+1 – Acesse o endereço eletrônico **https://dbeaver.io/download/**, e clique em <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura04.png" style="width: 125px; "/> para baixar o arquivo de instalação.
+
+2 – Execute o arquivo de instalação e siga os passos descritos na figura abaixo.
+
+Figura 03 – Passo a passo para a instalação do DBeaver.
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura05.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+### 2.2.2	Como configurar o DBeaver
+
+Ao executar o programa pela primeira vez, aparece uma tela perguntando se você ***“Do you want to create sample database?”***. Clique no botão ***“No”*** e siga os passos descritos na figura abaixo.
+
+Figura 04 – Passo a passo para a conexão do DBeaver ao DB_CODEPLAN.
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura06.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+Estabelecida a conexão, é necessário configurar o formato dos dados para serem apresentados no padrão brasileiro. Para isso basta seguir os passos da figura abaixo.
+
+Figura 05 – Passos complementares para a configuração do ***DBeaver***.
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura07.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+## 2.3	SQL Server Management Studio
+
+O *SQL Server Management Studio* é um software gratuito desenvolvido pela Microsoft e usado para configurar, gerenciar e administrar todos os componentes do Microsoft SQL Server. Ao contrário do DBeaver, sua instalação requer credenciais de administrador no computador. Para instalá-lo basta acessar o endereço eletrônico https://docs.microsoft.com/pt-br/sql/ssms/download-sql-server-management-studio-ssms, clicar em <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura08.png" style="width: 350px; "/> para baixar o arquivo de instalação e executá-lo.
+
+### 2.3.1	Como configurar o SQL Server Management Studio
+
+Ao executar o programa pela primeira vez, aparece a tela de configuração e conexão a um banco de dados. Os dados de conexão devem ser informados de acordo com a figura abaixo.
+
+Figura 06 – Passo a passo para a conexão do *SQL Server Management Studio* ao DB_CODEPLAN.
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura09.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+## 2.4	Como configurar o ODBC
+
+O ODBC (*Open DataBase Connectivity*) é um método de acesso a SGBD desenvolvido pela Microsoft, com a finalidade de tornar possível acessar qualquer tipo de SGBD para o qual haja um driver correspondente. Para configurar a conexão ao DB_CODEPLAN, basta seguir os passos da figura abaixo.
+
+Figura 06 – Passo a passo para a conexão do ODBC ao DB_CODEPLAN.
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura10.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+3		A LINGUAGEM SQL
+
+No início cada SGBD tinha o seu próprio conjunto de comandos e instruções. Mas a IBM, ainda na década de 70, criou um conjunto de comandos e instruções que se tornaram padrão e são utilizados até hoje em todos os SGBD. Este conjunto de comandos e instruções passou a ser chamado ***Structured Query Language***, ou em bom português brasileiro **Linguagem de Consulta Estruturada**, ou simplesmente **SQL**. 
+
+A linguagem SQL pode ter vários enfoques:
+
+**Linguagem interativa de consulta (*query AdHoc*):** Através de comandos SQL os usuários podem montar consultas poderosas, sem a necessidade da criação de um programa, podendo utilizar ferramentas *front end*^[Em ciência da computação, front end e back end são termos generalizados que se referem às etapas inicial e final de um processo. De maneira geral podemos dizer que o front end é a forma como o usuário enxerga e gera as informações que são encaminhadas para o SGBD e o back end é a forma, não vista pelo usuário, como o SGBD processa e disponibiliza as informações para o usuário.] para a montagem de relatórios;
+
+**Linguagem de programação para acesso às bases de dados:** Comandos SQL embutidos em programas de aplicação (escritos em C, C++, Java e Visual Basic, entre outros) acessam os dados armazenados em um SGBD;
+
+**Linguagem de administração de banco de dados:** O responsável pela administração do banco de dados (DBA) utiliza comandos SQL para realizar tarefas relacionadas com a manutenção dos bancos de dados do SGBD;
+
+**Linguagem de consulta em ambiente cliente/servidor:** Os programas sendo processados nos computadores dos clientes (*front ends*) usam comandos SQL para se comunicarem, através de uma rede, com um SGBD, para processar informações em uma máquina servidora (*back end*);
+
+**Linguagem para bancos de dados distribuídos:** A linguagem SQL é também a linguagem padrão para a manipulação de dados em uma base de dados distribuída;
+
+**Linguagem de definição de dados (DDL):** Permite ao usuário a definição da estrutura e organização dos dados armazenados, e das relações existentes entre eles;
+
+**Linguagem de manipulação de dados (DML):** Permite a um usuário, ou a um programa de aplicação, a execução de operações de inclusão, remoção, seleção ou atualização de dados previamente armazenados na base de dados;
+Controle de acesso: Protege os dados de manipulações não autorizadas;
+
+**Integridade dos dados:** Auxilia no processo de definição da integridade dos dados, protegendo contra corrupções e inconsistências geradas por falhas do sistema de computação, ou por erros nos programas de aplicação. 
+
+## 3.1		Vantagens da Linguagem SQL
+
+•	Independência de fabricante;
+
+•	A linguagem é adotada por praticamente todos os SGBD existentes no mercado, além de ser uma linguagem padronizada. Com isso, pelo menos em tese^[Há situações em que os fabricantes do SGBD criam funções específicas envolvendo um conjunto de programações em SQL, como uma função para o cálculo da diferença entre duas datas por exemplo, e patenteiam estas funções, tornando-se proprietária exclusiva de sua utilização.], é possível mudar de SGBD sem se preocupar em alterar os programas de aplicação;
+
+•	Pode ser utilizada tanto em máquinas Intel rodando Windows, passando por workstations RISC rodando UNIX, até mainframes rodando sistemas operacionais proprietários;
+
+•	Portabilidade entre plataformas de software (ou seja, é possível migrar de Windows para Linux, ou Oracle para PostgreSQL);
+
+•	Redução dos custos com treinamento;
+
+•	Com base no item anterior, as aplicações podem se movimentar de um ambiente para o outro sem que seja necessária uma reciclagem da equipe de desenvolvimento;
+
+•	Usa inglês estruturado de alto nível;
+
+•	É formado por um conjunto bem simples de sentenças em inglês, oferecendo um rápido e fácil entendimento;
+
+•	Permite consultas interativas;
+
+•	Permite aos usuários acesso fácil e rápido aos dados a partir de um *front end* que permita a edição e a submissão de comandos SQL;
+
+•	Múltiplas visões dos dados;
+
+•	Permite ao criador do banco de dados levar diferentes visões dos dados aos diferentes usuários;
+
+•	Definição dinâmica dos dados;
+
+•	Através da linguagem SQL pode-se alterar, expandir ou incluir dinamicamente as estruturas dos dados armazenados, com máxima flexibilidade.
+
+## 3.2	Famílias de Comandos SQL
+
+Os comandos SQL são separados em três famílias:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura11.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+Neste treinamento abordaremos o *DML* **SELECT** e algumas de suas principais funções.
+
+# 4	EXPLORANDO O COMANDO SELECT
+
+## 4.1	Consultas básicas
+
+A principal estrutura do comando SELECT é a seguinte:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura12.png" style="width: 300px;display: block;margin-left: auto;margin-right: auto "/>
+
+
+Os resultados gerados a partir de uma **SELECT** são gravados em uma tabela temporária salva no banco de dados, que é excluída após a sua cópia para a máquina local ou o fechamento da conexão local com o SGBD.
+
+A maioria dos SGBD não faz distinção entre letras maiúsculas ou minúsculas ou colocar tudo em um único parágrafo ou em mais de um. Mas para fins de documentação a padronização sugerida é digitar cláusulas e funções com letras maiúsculas, mantendo cada um em parágrafos separados, e os demais, como nomes de tabelas e colunas, com letras minúsculas e em um único parágrafo.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura13.png" style="width: 500px;display: block;margin-left: auto;margin-right: auto "/>
+
+É possível também inserir comentários, iniciando o parágrafo com dois sinais de menos (**--**).
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura14.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+
+Usualmente cada bloco de programação é finalizado por ponto-e-vírgula (**;**). Mas há SGBD que aceitam outras formas. Por exemplo o SGBD *SQL Server* da Microsoft aceita a expressão “***GO***“ para identificação dos blocos de programação.
+
+Considerando a tabela **dom2021**, no *schema* **pdad**, execute os seguintes comandos:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura15.png" style="width: 350px;display: block;margin-left: auto;margin-right: auto "/>
+
+De acordo com o dicionário de variáveis, a **dom2021** possui 133 colunas, onde na programação à esquerda é solicitado a apresentação dos dados da coluna na posição 3, no caso a coluna **A01ra**. Na programação ao centro é solicitado a apresentação dos dados das colunas nas posições 1 e 6, no caso as colunas **A01ra** e **B01**, respectivamente. Por fim na programação à direita solicitamos a apresentação de todos os dados de todas as colunas.
+
+## 4.2	Usando ALIAS
+
+ALIAS são literalmente apelidos, pois algumas colunas em um ***SELECT*** podem ser resultado da combinação de duas ou mais colunas. Se não for especificado um nome para a(s) nova(s) coluna(s), será atribuído um aleatoriamente, e que com certeza não servirá. Para o usuário atribuir um nome, ele pode proceder de duas formas:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura16.png" style="width: 650px;display: block;margin-left: auto;margin-right: auto "/>
+
+***ALIAS*** também é utilizado para identificar e distinguir diversas tabelas em uma consulta, como será visto mais adiante.
+
+## 4.3	Cláusula ORDER BY
+
+Quando os dados solicitados aparecem na tela, eles são apresentados na maioria das vezes na ordem em que encontram-se gravados na tabela consultada.
+
+Para ordená-los, basta inserir a cláusula ***ORDER BY*** e escrever o nome da(s) coluna(s) que deseja classificar, como mostra os comandos abaixo.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura17.png" style="width: 600px;display: block;margin-left: auto;margin-right: auto "/>
+
+## 4.4	Cláusula ***DISTINCT***
+
+Nos comandos executados acima, são mostradas todas as informações contidas na tabela consultada, independente se há ou não multiplicidade de linhas (repetição).
+
+Com a cláusula ***DISTINCT*** é possível ver o conteúdo de uma ou mais colunas, eliminando possíveis multiplicidades.
+
+Por exemplo, para ver os códigos dos setores pesquisados na tabela **dom2021**, basta executar o comando abaixo:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura18.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+
+Observe que os setores de número 53301 (Vicente Pires – Consolidado) e 53302 (Vinte e Seis de Setembro) estão vinculados a RA de número 30 (Vicente Pires).
+
+## 4.5	Criando grupos com a cláusula ***CASE***
+
+A cláusula ***CASE*** permite que os valores retornados pelas consultas possam ser modificados caso sejam compatíveis com determinadas condições. Como exemplo podemos criar uma nova coluna contendo a seguinte regra:
+
+•	Se o campo **E06** (Cor da pele ou raça) da tabela **mor2021** estiver preenchido com os valores 1, 3 ou 5, atribua o valor 1;
+
+•	Se o campo **E06** (Cor da pele ou raça) da tabela **mor2021** estiver preenchido com os valores 2 ou 4, atribua o valor 2;
+
+•	Para todos os outros valores identificados na coluna **E06** (Cor da pele ou raça) da tabela **mor2021**, atribua valor 3;
+
+•	Salve os resultados em uma coluna com o nome “*negro_naonegro*”.
+
+Implementando as regras acima em SQL, a programação é a seguinte:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura19.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+
+Também é possível a utilização de operadores e funções específicas para descrever as condições. Utilizando o operador **IN**, a programação acima pode ser reescrita da seguinte forma:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura20.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+
+Segue abaixo uma lista com os operadores e funções mais usadas e suas descrições.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura21.png" style="width: 400px;display: block;margin-left: auto;margin-right: auto "/>
+
+## 4.6	Aplicando filtros
+
+É possível realizar consultas aplicando filtros específicos através da cláusula **WHERE**. Sua estrutura é a seguinte: 
+ 
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura22.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+
+Por exemplo, para ver as informações de todas as pessoas entrevistadas com idade superior a 18 anos na **PDAD 2021**, basta executar a seguinte programação:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura23.png" style="width: 125px;display: block;margin-left: auto;margin-right: auto "/>
+
+Os mesmos operadores utilizados na cláusula **CASE** também podem ser aplicados em filtros, como mostram os exemplos abaixo.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura24.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+## 4.7		Operadores e Precedência
+
+É possível a utilização de diversos operadores aritméticos, que seguem uma ordem específica de execução, como mostra a figura abaixo.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura25.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+
+Quando dois ou mais operadores em uma expressão tiverem o mesmo nível de precedência, a avaliação será feita da esquerda para a direita.
+
+Para definir uma precedência basta utilizar parênteses nos comandos. Por exemplo, qual a diferença entre os exemplos abaixo?
+ 
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura26.png" style="width: 500px;display: block;margin-left: auto;margin-right: auto "/>
+
+No exemplo 1 são selecionadas as fichas possuem valor 5 na coluna **B10** ou valores 3 e 2 nas colunas **B11** e **B12** respectivamente. Já no exemplo 2 são selecionadas as fichas que possuem valor 2 na coluna **B12** e valor 5 na coluna **B10** ou valor 3 na coluna **B11**.
+
+## 4.8	Agrupando Dados 
+
+As funções listadas abaixo são utilizadas para totalizar, somar, gerar relatórios, estatísticas e outras informações de maneira resumida. 
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura27.png" style="width: 300px;display: block;margin-left: auto;margin-right: auto "/>
+
+Para utilizar as funções de agregação, utilizamos a(s) coluna(s) a ser(em) agregada(s) dentro da função de agregação. Por exemplo:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura28.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+
+Ao utilizar as funções de agregação os dados são agregados em uma única linha.
+Deve-se tomar cuidado com o resultado das funções de agregação, com exceção do **COUNT**, pois elas desconsideram os valores nulos. Executando a programação anterior, podemos verificar que:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura29.png" style="width: 600px;display: block;margin-left: auto;margin-right: auto "/>
+
+Caso seja necessária a utilização de duas ou mais agregações, elas precisam ser especificadas por uma função de agregação, como veremos a seguir.
+
+### 4.8.1	A instrução GROUP BY
+
+Nos casos em que colunas não agregadas serão utilizadas para criarem grupos, utilizamos a instrução ***GROUP BY***. Para utilizar esta instrução, é preciso definir qual coluna da consulta será utilizada para fazer a quebra, ou subgrupo das agregações solicitadas. 
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura30.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+
+É possível observar que a coluna **E06** foi incluída na consulta sem nenhuma função de agregação, porque ela será utilizada como parâmetro para o agrupamento dos dados, gerando as informações anteriores agrupadas segundo as codificações de cor ou raça.
+
+O parâmetro de agregação também pode ser composto por uma coluna resultante de operadores. Por exemplo, para gerar as informações de rendimento individual considerando o agrupamento de negros e não negros criado anteriormente, basta executar a programação abaixo.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura31.png" style="width: 275px;display: block;margin-left: auto;margin-right: auto "/>
+
+Observe que ao inserir o **CASE WHEN** na instrução **GROUP BY**, o **ALIAS** atribuído no **SELECT** foi retirado.
+
+### 4.9	A instrução **HAVING**
+
+Assim como podemos filtrar linhas de uma tabela com a instrução WHERE, podemos fazer o mesmo quando os dados foram agrupados utilizando **HAVING**.
+
+A diferença básica entre o **WHERE** e o ***HAVING*** é que primeiro faz o filtro ao selecionar os registros para serem somados, sobre as linhas originais. O segundo faz a filtragem quando as agregações já foram efetuadas, portanto, sobre o valor agrupado. Observe os dois exemplos abaixo: 
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura32.png" style="width: 500px;display: block;margin-left: auto;margin-right: auto "/>
+
+O primeiro exemplo não apresenta informação pois não há nenhuma pessoa pesquisada que tenha *R$100.000,00* na coluna **renda_ind_r**.
+
+No segundo observa-se três fichas porque a soma dos valores da coluna **renda_ind_r** ultrapassa o valor de *R$100.000,00*.
+
+## 4.10		Junções de Tabelas ou Consultas
+
+O cruzamento entre tabelas é necessário para que se possa extrair informações a partir do cruzamento de dados.
+
+Por exemplo, uma das maneiras de calcular a quantidade estimada de responsáveis pelo domicílio segundo o sexo (feminino ou masculino) na **PDAD 2021**, é somar as informações da coluna **PESO_DOM**, gravadas na tabela **dom2021**, agrupando pelas informações da coluna **E04** da tabela **mor2021**, selecionando apenas os dados em que a coluna **E05** possui o valor 1.
+
+É importante ressaltar a necessidade da utilização de uma ou mais colunas como chave para o cruzamento. Estas colunas devem ter o mesmo formato (colunas numéricas só podem ser cruzadas com colunas numéricas, por exemplo) e conter informações comuns entre si. 
+
+Dependendo do SGBD a não indicação da(s) coluna(s) chave(s) para o cruzamento pode resultar apenas em erro, ou pode resultar no travamento do banco de dados, uma vez que ao não indicar a(s) coluna(s) chave(s), o banco de dados pode cruzar todas as colunas das tabelas indicadas entre si, gerando uma nova tabela tão grande que pode não ser suportado pelo SGBD.
+
+A junção das tabelas pode ser feita de três maneiras:
+
+•	**INNER JOIN:** ou simplesmente JOIN, traz todas as linhas das tabelas consultadas, desde que os dados contidos na(s) coluna(s) chave sejam os mesmos.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura33.png" style="width: 550px;display: block;margin-left: auto;margin-right: auto "/>
+
+A programação que pode ser utilizada no exemplo citado (quantidade estimada de responsáveis pelo domicílio segundo o sexo), é a seguinte:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura34.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+
+•	**LEFT OUTER JOIN:** ou simplesmente ***LEFT JOIN***, traz todas as linhas da tabela à esquerda (*left*), tendo ou não registros relacionados na tabela da direita. Neste cruzamento, a tabela à esquerda do operador de junção exibirá os valores de todas as linhas, enquanto que a da direita exibirá somente os valores que tenham correspondentes aos da tabela da esquerda. Para os registros da direita que não tenham correspondentes na esquerda serão colocados valores nulos.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura35.png" style="width: 550px;display: block;margin-left: auto;margin-right: auto "/>
+
+A programação que pode ser utilizada no exemplo citado (quantidade estimada de responsáveis pelo domicílio segundo o sexo), é a seguinte:
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura36.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+
+•	**RIGHT OUTER JOIN:** ou simplesmente ***RIGHT JOIN***, é o inverso do ***LEFT OUTER JOIN***.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura37.png" style="width: 550px;display: block;margin-left: auto;margin-right: auto "/>
+
+•	**FULL OUTER JOIN:** todos os registros de todas as tabelas serão retornados, tendo ou não registros relacionados. Neste cruzamento as tabelas, tanto à esquerda quanto à direita do operador de junção.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura38.png" style="width: 550px;display: block;margin-left: auto;margin-right: auto "/>
+
+Algumas considerações importantes em relação a forma de programar:
+
+1.	O(s) nome(s) da(s) coluna(s) chave(s) pode(m) ou não ser(rem) iguais. O importante é que o(s) formato(s) seja(m) igual(is). Ou seja, se uma for texto e outra coluna número, o JOIN não é possível;
+
+2.	Quando é feito o cruzamento de duas ou mais tabelas, é necessário especificar de qual tabela vem cada coluna. Para isto é necessário escrever o nome da tabela seguido de ponto (**.**) mais o nome da coluna que deseja mostrar. Para não escrever sempre o nome da tabela, é possível atribuir um ***ALIAS*** para cada tabela especificada após o ***FROM***. No exemplo citado (quantidade estimada de responsáveis pelo domicílio segundo o sexo), a tabela dom2021 foi apelidado simplesmente de **d** (pdad.dom2021 ***AS*** d) e a tabela mor2021 foi apelidada de **m** (pdad.mor2021 ***AS*** m);
+
+3.	Para utilizar o ***JOIN*** em três ou mais tabelas, basta realizar em blocos, como mostra o exemplo abaixo.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura39.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+# 5		Utilização de algumas funções para manipulação de dados
+
+Há inúmeras situações em que a manipulação de dados faz-se necessária, como converter uma coluna de texto para número e vice-versa, calcular uma idade ou até mesmo criar uma data.
+
+Para tarefas como estas, as funções utilizadas são as seguintes:
+
+•	***CONVERT***(tipo, coluna ou expressão) ***AS*** apelido: Esta é uma função tem o poder de converter diversos tipos de dados existentes em uma tabela. Por exemplo transformar uma coluna com informações do tipo '*integer*' para o '*float*', usa-se a programação ***SELECT CONVERT***(***FLOAT***, Nome da coluna no formato ***INTEGER***);
+
+•	***ROUND***(coluna ou expressão, Quantidade de decimais) ***AS*** apelido: Esta é uma função tem o poder de arredondar valores para uma quantidade específica de casas decimais;
+
+•	***CAST***(coluna ou expressão ***AS*** tipo ) ***AS*** apelido: Esta é uma função tem o poder de converter diversos tipos de dados a serem criados em uma tabela. Por exemplo para criar uma coluna com o número pi arredondado para duas decimais, usa-se a programação ***SELECT CAST***(3.1415926535897 ***AS NUMERIC***(7,2)). Pode-se converter caracteres para data, como por exemplo ***SELECT CAST***('*31 08 2015*' ***AS DATE***);
+•	***EXTRACT***(***YEAR FROM AGE***(data2,data1)), para data2 > data1: Com esta função é possível calcular a idade entre duas datas diferentes. Na realidade aqui são utilizadas duas funções, que são ***AGE*** e ***EXTRACT***. Sugiro que seja feita uma pesquisa para ver como cada uma funciona.
