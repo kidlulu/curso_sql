@@ -42,7 +42,7 @@ setwd("C:/Users/35866/OneDrive/Documentos/curso_sql")
 
 Este minicurso de SQL terá enfoque nos microdados da ***Pesquisa Distrital por Amostra de Domicílios - PDAD***, ano base 2021, e na base de dados ***`DB_CODEPLAN`***, que disponibiliza microdados de diversas fontes de informações para subsidiar os trabalhos desenvolvidos no ***Instituto de Pesquisa e Estatística do DF - IPEDF Codeplan***. O dicionário de dados da PDAD está disponível para download no endereço eletrônico **https://www.codeplan.df.gov.br/microdados-pdad-2021/**.
 
-# 1	INTRODUÇÃO 
+# 1	Introdução 
 
 ## 1.1	Conceito de Banco de Dados
 
@@ -74,7 +74,7 @@ Os *schemas* do DB_CODEPLAN são organizados em 2 grandes grupos: acesso públic
 Figura 02 – *Schemas* disponíveis no banco de dados DB_CODEPLAN.
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura03.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
 
-# 2	PROCEDIMENTOS PARA INSTALAÇÃO DE FERRAMENTAS PARA CONSULTAS EM BANCO DE DADOS
+# 2	Procedimentos para instalação de ferramentas para conexão à SGBD
 
 ## 2.1	 Informações para conexão ao banco
 
@@ -90,7 +90,7 @@ Apresentaremos 2 softwares que podem ser utilizados para acessar o DB_CODEPLAN.
 
 ## 2.2	*DBeaver*
 
-O *DBeaver* é um software livre utilizado para acesso, administração e consultas a diversos SGBD. Ele pode ser instalado em diversos sistemas operacionais. No caso do Windows, ele pode ser instalado e configurado sem a necessidade de perfil administrativo, como mostra os passos descritos abaixo.
+O *DBeaver* é um software livre utilizado para acesso, administração e consultas em diversos SGBD. Ele pode ser instalado em diversos sistemas operacionais. No caso do Windows, ele pode ser instalado e configurado sem a necessidade de perfil administrativo, como mostra os passos descritos abaixo.
 
 ### 2.2.1	Como instalar o DBeaver
 
@@ -131,7 +131,7 @@ O ODBC (*Open DataBase Connectivity*) é um método de acesso a SGBD desenvolvid
 Figura 06 – Passo a passo para a conexão do ODBC ao DB_CODEPLAN.
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura10.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
 
-3		A LINGUAGEM SQL
+# 3		A Linguagem SQL
 
 No início cada SGBD tinha o seu próprio conjunto de comandos e instruções. Mas a IBM, ainda na década de 70, criou um conjunto de comandos e instruções que se tornaram padrão e são utilizados até hoje em todos os SGBD. Este conjunto de comandos e instruções passou a ser chamado ***Structured Query Language***, ou em bom português brasileiro **Linguagem de Consulta Estruturada**, ou simplesmente **SQL**. 
 
@@ -190,18 +190,18 @@ Os comandos SQL são separados em três famílias:
 
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura11.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
 
-Neste treinamento abordaremos o *DML* **SELECT** e algumas de suas principais funções.
+Neste treinamento abordaremos o *DML* ***SELECT*** e algumas de suas principais funções.
 
-# 4	EXPLORANDO O COMANDO SELECT
+# 4	Explorando o comando ***SELECT***
 
 ## 4.1	Consultas básicas
 
-A principal estrutura do comando SELECT é a seguinte:
+A principal estrutura do comando ***SELECT*** é a seguinte:
 
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura12.png" style="width: 300px;display: block;margin-left: auto;margin-right: auto "/>
 
 
-Os resultados gerados a partir de uma **SELECT** são gravados em uma tabela temporária salva no banco de dados, que é excluída após a sua cópia para a máquina local ou o fechamento da conexão local com o SGBD.
+Os resultados gerados a partir de uma ***SELECT*** são gravados em uma tabela temporária salva no banco de dados, que é excluída após a sua cópia para a máquina local ou o fechamento da conexão local com o SGBD.
 
 A maioria dos SGBD não faz distinção entre letras maiúsculas ou minúsculas ou colocar tudo em um único parágrafo ou em mais de um. Mas para fins de documentação a padronização sugerida é digitar cláusulas e funções com letras maiúsculas, mantendo cada um em parágrafos separados, e os demais, como nomes de tabelas e colunas, com letras minúsculas e em um único parágrafo.
 
@@ -328,7 +328,7 @@ O parâmetro de agregação também pode ser composto por uma coluna resultante 
 
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura31.png" style="width: 275px;display: block;margin-left: auto;margin-right: auto "/>
 
-Observe que ao inserir o **CASE WHEN** na instrução **GROUP BY**, o **ALIAS** atribuído no **SELECT** foi retirado.
+Observe que ao inserir o **CASE WHEN** na instrução ***GROUP BY***, o ***ALIAS*** atribuído no ***SELECT*** foi retirado.
 
 ### 4.9	A instrução **HAVING**
 
