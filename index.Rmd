@@ -394,9 +394,10 @@ Há inúmeras situações em que a manipulação de dados faz-se necessária, co
 
 Para tarefas como estas, as funções utilizadas são as seguintes:
 
-•	***CONVERT***(tipo, coluna ou expressão) ***AS*** apelido: Esta é uma função tem o poder de converter diversos tipos de dados existentes em uma tabela. Por exemplo transformar uma coluna com informações do tipo '*integer*' para o '*float*', usa-se a programação ***SELECT CONVERT***(***FLOAT***, Nome da coluna no formato ***INTEGER***);
+•	***CAST***(coluna ou expressão ***AS*** tipo ) ***AS*** apelido: Esta é uma função que tem o poder de converter diversos tipos de dados em uma tabela. Por exemplo para criar uma coluna com o número pi arredondado para duas decimais, usa-se a programação ***SELECT CAST***(3.1415926535897 ***AS NUMERIC***(7,2)). Pode-se converter caracteres para data, como por exemplo ***SELECT CAST***('*31 08 2015*' ***AS DATE***);
+
+•	***CONVERT***^[As funções CAST e CONVERT possuem a mesma finalidade, que é a conversão de dados. A diferença mais relevante entre as duas funções é que, na função CONVERT há a possibilidade de adicionar um terceiro parâmetro para "escolher" o tipo de dado desejado, conforme padrões disponibilizados site da Microsoft, que a função CAST não dá suporte.](tipo, coluna ou expressão) ***AS*** apelido: Esta é uma função tem o poder de converter diversos tipos de dados existentes em uma tabela. Por exemplo transformar uma coluna com informações do tipo '*integer*' para o '*float*', usa-se a programação ***SELECT CONVERT***(***FLOAT***, Nome da coluna no formato ***INTEGER***);
 
 •	***ROUND***(coluna ou expressão, Quantidade de decimais) ***AS*** apelido: Esta é uma função tem o poder de arredondar valores para uma quantidade específica de casas decimais;
 
-•	***CAST***(coluna ou expressão ***AS*** tipo ) ***AS*** apelido: Esta é uma função tem o poder de converter diversos tipos de dados a serem criados em uma tabela. Por exemplo para criar uma coluna com o número pi arredondado para duas decimais, usa-se a programação ***SELECT CAST***(3.1415926535897 ***AS NUMERIC***(7,2)). Pode-se converter caracteres para data, como por exemplo ***SELECT CAST***('*31 08 2015*' ***AS DATE***);
 •	***EXTRACT***(***YEAR FROM AGE***(data2,data1)), para data2 > data1: Com esta função é possível calcular a idade entre duas datas diferentes. Na realidade aqui são utilizadas duas funções, que são ***AGE*** e ***EXTRACT***. Sugiro que seja feita uma pesquisa para ver como cada uma funciona.
