@@ -348,9 +348,9 @@ O cruzamento entre tabelas muitas vezes se faz necessário para que se possa ext
 
 Tomando como base os microdados da **PDAD 2021**, muitas vezes precisamos cruzar informações de domicílios e de moradores para sabermos coisas do tipo:
 
-•	*Quantidade estimada de domicílios, segundo a Escala Brasileira de Insegurança Alimentar, que possua ao menos 1 pessoa com idade entre 0 e 5 anos residindo no domicílio*; ou
+•	*Quantidade estimada de domicílios, segundo a Escala Brasileira de Insegurança Alimentar, que possua ao menos 1 pessoa com idade entre 0 e 5 anos residindo no domicílio*;
 
-•	*Quantidade estimada de pessoas que residem em domicílios com ao menos um cachorro ou um gato de estimação*;
+•	*Quantidade estimada de pessoas que residem em domicílios com ao menos um cachorro ou um gato de estimação*.
 
 É importante ressaltar a necessidade da utilização de uma ou mais colunas como chave para o cruzamento. Estas colunas devem ter o mesmo formato (colunas numéricas só podem ser cruzadas com colunas numéricas, por exemplo) e conter informações comuns entre si. 
 
