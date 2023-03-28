@@ -336,17 +336,21 @@ Assim como podemos filtrar linhas de uma tabela com a instrução WHERE, podemos
 
 A diferença básica entre o **WHERE** e o ***HAVING*** é que primeiro faz o filtro ao selecionar os registros para serem somados, sobre as linhas originais. O segundo faz a filtragem quando as agregações já foram efetuadas, portanto, sobre o valor agrupado. Observe os dois exemplos abaixo: 
 
-<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura32.png" style="width: 500px;display: block;margin-left: auto;margin-right: auto "/>
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura32.png" style="width: 750px;display: block;margin-left: auto;margin-right: auto "/>
 
-O primeiro exemplo não apresenta informação pois não há nenhuma pessoa pesquisada que tenha *R$100.000,00* na coluna **renda_ind_r**.
+O primeiro exemplo não apresenta informação pois não há nenhuma pessoa pesquisada que tenha *R$10.000,00* na coluna **renda_ind_r**.
 
-No segundo observa-se três fichas porque a soma dos valores da coluna **renda_ind_r** ultrapassa o valor de *R$100.000,00*.
+No segundo observa-se três fichas porque a soma dos valores da coluna **renda_ind_r** ultrapassa o valor de *R$10.000,00*.
 
-## 4.10		Junções de Tabelas ou Consultas
+## 4.9		Cruzamento de Tabelas utilizando o *JOIN*
 
-O cruzamento entre tabelas é necessário para que se possa extrair informações a partir do cruzamento de dados.
+O cruzamento entre tabelas muitas vezes se faz necessário para que se possa extrair informações a partir do cruzamento de dados. 
 
-Por exemplo, uma das maneiras de calcular a quantidade estimada de responsáveis pelo domicílio segundo o sexo (feminino ou masculino) na **PDAD 2021**, é somar as informações da coluna **PESO_DOM**, gravadas na tabela **dom2021**, agrupando pelas informações da coluna **E04** da tabela **mor2021**, selecionando apenas os dados em que a coluna **E05** possui o valor 1.
+Tomando como base os microdados da **PDAD 2021**, muitas vezes precisamos cruzar informações de domicílios e de moradores para sabermos coisas do tipo:
+
+•	*Quantidade estimada de domicílios, segundo a Escala Brasileira de Insegurança Alimentar, que possua ao menos 1 pessoa com idade entre 0 e 5 anos residindo no domicílio*; ou
+
+•	*Quantidade estimada de pessoas que residem em domicílios com ao menos um cachorro ou um gato de estimação*;
 
 É importante ressaltar a necessidade da utilização de uma ou mais colunas como chave para o cruzamento. Estas colunas devem ter o mesmo formato (colunas numéricas só podem ser cruzadas com colunas numéricas, por exemplo) e conter informações comuns entre si. 
 
@@ -358,17 +362,17 @@ A junção das tabelas pode ser feita de três maneiras:
 
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura33.png" style="width: 550px;display: block;margin-left: auto;margin-right: auto "/>
 
-A programação que pode ser utilizada no exemplo citado (quantidade estimada de responsáveis pelo domicílio segundo o sexo), é a seguinte:
+A programação que pode ser utilizada no exemplo *Quantidade estimada de domicílios, segundo a Escala Brasileira de Insegurança Alimentar, que possua ao menos 1 pessoa com idade entre 0 e 5 anos residindo no domicílio* é a seguinte:
 
-<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura34.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura34.png" style="width: 500px;display: block;margin-left: auto;margin-right: auto "/>
 
 •	**LEFT OUTER JOIN:** ou simplesmente ***LEFT JOIN***, traz todas as linhas da tabela à esquerda (*left*), tendo ou não registros relacionados na tabela da direita. Neste cruzamento, a tabela à esquerda do operador de junção exibirá os valores de todas as linhas, enquanto que a da direita exibirá somente os valores que tenham correspondentes aos da tabela da esquerda. Para os registros da direita que não tenham correspondentes na esquerda serão colocados valores nulos.
 
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura35.png" style="width: 550px;display: block;margin-left: auto;margin-right: auto "/>
 
-A programação que pode ser utilizada no exemplo citado (quantidade estimada de responsáveis pelo domicílio segundo o sexo), é a seguinte:
+A programação que pode ser utilizada no exemplo *Quantidade estimada de pessoas que residem em domicílios com ao menos um cachorro ou um gato de estimação* é a seguinte:
 
-<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura36.png" style="width: 250px;display: block;margin-left: auto;margin-right: auto "/>
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura36.png" style="width: 550px;display: block;margin-left: auto;margin-right: auto "/>
 
 •	**RIGHT OUTER JOIN:** ou simplesmente ***RIGHT JOIN***, é o inverso do ***LEFT OUTER JOIN***.
 
@@ -387,6 +391,16 @@ Algumas considerações importantes em relação a forma de programar:
 3.	Para utilizar o ***JOIN*** em três ou mais tabelas, basta realizar em blocos, como mostra o exemplo abaixo.
 
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura39.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+## 4.10		União de Tabelas utilizando o *UNION* ou o *UNION ALL*
+
+O *UNION* é utilizado para unir duas ou mais tabelas em uma só, "empilhando" uma sobre a outra. Para que seja possível a união, todas as tabelas envolvidas precisam ter a mesma estrutura (mesma quantidade de e tipos de colunas).
+
+No SQL Server, a diferença entre o *UNION* e o *UNION ALL* é que o primeiro elimina linhas repetidas e o segundo não.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura40.png" style="width: 1000px;display: block;margin-left: auto;margin-right: auto "/>
+
+
 
 # 5		Utilização de algumas funções para manipulação de dados
 
