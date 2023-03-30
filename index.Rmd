@@ -392,7 +392,7 @@ Algumas considerações importantes em relação a forma de programar:
 
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura39.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
 
-## 4.10		União de Tabelas utilizando o *UNION* ou o *UNION ALL*
+## 4.10		União de Tabelas utilizando o *UNION* ou *UNION ALL*
 
 O *UNION* é utilizado para unir duas ou mais tabelas em uma só, "empilhando" uma sobre a outra. Para que seja possível a união, todas as tabelas envolvidas precisam ter a mesma estrutura (mesma quantidade de e tipos de colunas).
 
@@ -400,7 +400,11 @@ No SQL Server, a diferença entre o *UNION* e o *UNION ALL* é que o primeiro el
 
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura40.png" style="width: 1000px;display: block;margin-left: auto;margin-right: auto "/>
 
+## 4.11		Utilizando subselect
 
+O *SUBSELECT*, também conhecido como *consulta interna* ou *seleção interna* nada mais é do que um *SELECT* executado dentro de outro *SELECT*.
+
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura41.png" style="width: 500px;display: block;margin-left: auto;margin-right: auto "/>
 
 # 5		Utilização de algumas funções para manipulação de dados
 
