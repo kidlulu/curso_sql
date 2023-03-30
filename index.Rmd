@@ -40,7 +40,7 @@ setwd("C:/Users/35866/OneDrive/Documentos/curso_sql")
 
 # Agenda
 
-Este minicurso de SQL terá enfoque nos microdados da ***Pesquisa Distrital por Amostra de Domicílios - PDAD***, ano base 2021, e na base de dados ***`DB_CODEPLAN`***, que disponibiliza microdados de diversas fontes de informações para subsidiar os trabalhos desenvolvidos no ***Instituto de Pesquisa e Estatística do DF - IPEDF Codeplan***. O dicionário de dados da PDAD está disponível para download no endereço eletrônico **https://www.codeplan.df.gov.br/microdados-pdad-2021/**.
+Este minicurso de SQL terá enfoque nos microdados da ***Pesquisa Distrital por Amostra de Domicílios - PDAD***, ano base 2021, e na base de dados ***`DB_CODEPLAN`***, que disponibiliza microdados de diversas fontes de informações para subsidiar os trabalhos desenvolvidos no ***Instituto de Pesquisa e Estatística do DF - IPEDF Codeplan***. O dicionário de dados da PDAD está disponível para download no endereço eletrônico **https://www.ipe.df.gov.br/microdados-pdad-2021/**.
 
 # 1	Introdução 
 
