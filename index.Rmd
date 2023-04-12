@@ -69,10 +69,24 @@ O **DB_CODEPLAN** é um banco de dados que contém diversas informações úteis
 Figura 01 – Exemplo de *schemas* e tabelas no banco de dados DB_CODEPLAN.
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura02.png" style="width: 400px;display: block;margin-left: auto;margin-right: auto "/>
 
-Os *schemas* do DB_CODEPLAN são organizados em 2 grandes grupos: acesso público e acesso restrito. Os *schemas* de acesso público possuem tabelas com informações que podem ser acessadas por qualquer pessoa que se conecte ao DB_CODEPLAN utilizando como usuário e senha ***codeplan***. Já os *schemas* de acesso restrito possuem tabelas com informações identificadas que para ter acesso, é necessário o preenchimento e assinatura de um “Termo de responsabilidade pelo uso da informação”. A figura abaixo mostra os *schemas* existentes atualmente no DB_CODEPLAN.
+Os *schemas* do DB_CODEPLAN são organizados em 2 grandes grupos: acesso público e acesso restrito. Os *schemas* de acesso público possuem tabelas com informações que podem ser acessadas por qualquer pessoa que se conecte ao DB_CODEPLAN utilizando como usuário e senha ***codeplan***. A figura abaixo mostra os *schemas* com acesso público existentes atualmente no DB_CODEPLAN.
 
-Figura 02 – *Schemas* disponíveis no banco de dados DB_CODEPLAN.
+Figura 02 – *Schemas* de acesso público disponíveis no banco de dados DB_CODEPLAN.
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura03.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+Já os *schemas* de acesso restrito possuem tabelas com informações protegidas pela Lei Geral de Proteção de dados - LGPD, obtidas por meio de assinatura de termo de cooperação técnica, firmado entre o IPEDF e outras instituições. A figura abaixo mostra os *schemas* com acesso restrito existentes atualmente no DB_CODEPLAN.
+
+Figura 03 – *Schemas* de acesso restrito disponíveis no banco de dados DB_CODEPLAN.
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura03A.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
+
+Por serem protegidas pela LGPD, o acesso às informações é concedido mediante o preenchimento e a assinatura do “Termo de responsabilidade pelo uso da informação”. A pessoa interessada deve iniciar um processo no SEI com o “Termo de responsabilidade pelo uso da informação” preenchido e assinado virtualmente. Em seguida o termo deve ser encaminhado para a chefia imediata, que avaliará a necessidade de acesso, e havendo concordância encaminhará para a DIEPS. Se a pessoa não estiver lotada nesta diretoria, a solicitação deverá ser encaminhada para a DIEPS através da diretoria onde a pessoa interessada está lotada.
+
+A figura abaixo mostra o modelo do “Termo de responsabilidade pelo uso da informação” a ser preenchido e encaminhado via SEI.
+
+Figura 04 – Modelo do “Termo de responsabilidade pelo uso da informação”.
+<img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/termo_responsabilidade.png" style="width: 600px;display: block;margin-left: auto;margin-right: auto "/>
+
+O modelo disponibilizado na figura 04 pode ser acessado e utilizado como documento modelo. Para isto basta acessar o número SEI **110266637**.
 
 # 2	Procedimentos para instalação de ferramentas para conexão à SGBD
 
@@ -98,19 +112,19 @@ O *DBeaver* é um software livre utilizado para acesso, administração e consul
 
 2 – Execute o arquivo de instalação e siga os passos descritos na figura abaixo.
 
-Figura 03 – Passo a passo para a instalação do DBeaver.
+Figura 05 – Passo a passo para a instalação do DBeaver.
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura05.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
 
 ### 2.2.2	Como configurar o DBeaver
 
 Ao executar o programa pela primeira vez, aparece uma tela perguntando se você ***“Do you want to create sample database?”***. Clique no botão ***“No”*** e siga os passos descritos na figura abaixo.
 
-Figura 04 – Passo a passo para a conexão do DBeaver ao DB_CODEPLAN.
+Figura 06 – Passo a passo para a conexão do DBeaver ao DB_CODEPLAN.
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura06.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
 
 Estabelecida a conexão, é necessário configurar o formato dos dados para serem apresentados no padrão brasileiro. Para isso basta seguir os passos da figura abaixo.
 
-Figura 05 – Passos complementares para a configuração do ***DBeaver***.
+Figura 07 – Passos complementares para a configuração do ***DBeaver***.
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura07.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
 
 ## 2.3	SQL Server Management Studio
@@ -121,14 +135,14 @@ O *SQL Server Management Studio* é um software gratuito desenvolvido pela Micro
 
 Ao executar o programa pela primeira vez, aparece a tela de configuração e conexão a um banco de dados. Os dados de conexão devem ser informados de acordo com a figura abaixo.
 
-Figura 06 – Passo a passo para a conexão do *SQL Server Management Studio* ao DB_CODEPLAN.
+Figura 08 – Passo a passo para a conexão do *SQL Server Management Studio* ao DB_CODEPLAN.
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura09.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
 
 ## 2.4	Como configurar o ODBC
 
 O ODBC (*Open DataBase Connectivity*) é um método de acesso a SGBD desenvolvido pela Microsoft, com a finalidade de tornar possível acessar qualquer tipo de SGBD para o qual haja um driver correspondente. Para configurar a conexão ao DB_CODEPLAN, basta seguir os passos da figura abaixo.
 
-Figura 06 – Passo a passo para a conexão do ODBC ao DB_CODEPLAN.
+Figura 09 – Passo a passo para a conexão do ODBC ao DB_CODEPLAN.
 <img src="C:/Users/35866/OneDrive/Documentos/curso_sql/figuras/figura10.png" style="width: 800px;display: block;margin-left: auto;margin-right: auto "/>
 
 # 3		A Linguagem SQL
